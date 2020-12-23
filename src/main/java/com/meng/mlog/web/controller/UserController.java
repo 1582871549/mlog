@@ -2,6 +2,7 @@ package com.meng.mlog.web.controller;
 
 import com.meng.mlog.common.base.BaseController;
 import com.meng.mlog.common.base.BaseService;
+import com.meng.mlog.common.result.helper.AssertHelper;
 import com.meng.mlog.common.result.model.ResultList;
 import com.meng.mlog.web.entity.UserVO;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,11 @@ public class UserController implements BaseController, BaseService<UserVO> {
     @RequestMapping(value = "/listUsers2", method = RequestMethod.GET)
     public List<UserVO> listUsers2() {
 
-        return getUserVOS();
+        List<UserVO> userVOS = getUserVOS();
+
+        AssertHelper.notNull(userVOS, "用户集合不能为空");
+
+        return userVOS;
     }
 
     private List<UserVO> getUserVOS() {

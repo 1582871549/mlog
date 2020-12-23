@@ -3,7 +3,7 @@ package com.meng.mlog.common.result.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meng.mlog.common.result.enums.ResultCodeEnum;
-import com.meng.mlog.common.result.exception.BusinessException;
+import com.meng.mlog.common.result.helper.ExceptionHelper;
 import com.meng.mlog.common.result.helper.ResultHelper;
 import com.meng.mlog.common.result.model.ResultVO;
 import org.springframework.core.MethodParameter;
@@ -35,7 +35,7 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
                 // 将数据包装在Result里后，再转换为json字符串响应给前端
                 return objectMapper.writeValueAsString(ResultHelper.success(data));
             } catch (JsonProcessingException e) {
-                throw new BusinessException(ResultCodeEnum.RETURN_STRING_TYPE_ERROR);
+                throw ExceptionHelper.newBusinessException(ResultCodeEnum.RETURN_STRING_TYPE_ERROR);
             }
         }
         // 将原本的数据包装在ResultVO里

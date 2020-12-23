@@ -11,6 +11,7 @@ public enum ResultCodeEnum {
     USERNAME_LOCKED("A0103", "账号冻结"),
     USER_NOT_EXIST("A0104", "用户不存在"),
     VALIDATE_FAILED("A0105", "参数校验失败"),
+    PARAM_CANNOT_BE_NULL("A0106", "参数不能为空"),
 
 
     SYSTEM_ERROR("B0001","系统执行出错"),
