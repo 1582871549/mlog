@@ -18,14 +18,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResultVO handleException(Exception e) {
-        log.error("全局异常", e);
+        String message = e.getMessage();
+        log.error(message, e);
         return ResultHelper.failure();
     }
 
     @ExceptionHandler(BusinessException.class)
     public ResultVO handleBusinessException(BusinessException be) {
-        log.error("业务异常", be);
-        return ResultHelper.failure(be.getCode(), be.getMessage());
+        String message = be.getMessage();
+        log.error(message, be);
+        return ResultHelper.failure(be.getCode(), message);
     }
 
 
