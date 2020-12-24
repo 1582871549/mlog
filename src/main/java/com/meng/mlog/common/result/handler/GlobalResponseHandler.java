@@ -35,7 +35,7 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
                 // 将数据包装在Result里后，再转换为json字符串响应给前端
                 return objectMapper.writeValueAsString(ResultHelper.success(data));
             } catch (JsonProcessingException e) {
-                throw ExceptionHelper.newBusinessException(ResultCodeEnum.RETURN_STRING_TYPE_ERROR);
+                throw ExceptionHelper.createBusinessException(ResultCodeEnum.RETURN_STRING_TYPE_ERROR);
             }
         }
         // 将原本的数据包装在ResultVO里

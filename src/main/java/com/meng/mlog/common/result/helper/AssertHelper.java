@@ -9,13 +9,13 @@ public class AssertHelper {
 
     public static void notNull(Object object, String message) {
         if (object == null) {
-            throw ExceptionHelper.newBusinessException(ResultCodeEnum.PARAM_CANNOT_BE_NULL, message);
+            throw ExceptionHelper.createBusinessException(ResultCodeEnum.PARAM_CANNOT_BE_NULL, message);
         }
     }
 
     public static void notNull(Collection<?> coll, String message) {
         if (CollectionUtils.isEmpty(coll)) {
-            throw ExceptionHelper.newBusinessException(ResultCodeEnum.PARAM_CANNOT_BE_NULL, message);
+            throw ExceptionHelper.createBusinessException(ResultCodeEnum.PARAM_CANNOT_BE_NULL, message);
         }
     }
 

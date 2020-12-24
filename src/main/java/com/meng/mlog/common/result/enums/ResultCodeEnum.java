@@ -1,5 +1,7 @@
 package com.meng.mlog.common.result.enums;
 
+import com.meng.mlog.common.result.helper.ExceptionHelper;
+
 public enum ResultCodeEnum {
 
     SUCCESS("0000", "成功"),
@@ -14,7 +16,10 @@ public enum ResultCodeEnum {
     PARAM_CANNOT_BE_NULL("A0106", "参数不能为空"),
 
 
-    SYSTEM_ERROR("B0001","系统执行出错"),
+    SYSTEM_ERROR("B0001", "系统内部错误"),
+    INTERNAL_SERVER_ERROR("B0002", "内部服务器错误"),
+    METHOD_FAILURE("B0003", "方法调用失败"),
+
     RETURN_STRING_TYPE_ERROR("B0100","返回String类型错误"),
     ;
 
@@ -35,6 +40,14 @@ public enum ResultCodeEnum {
     }
 
     public static ResultCodeEnum getResultCodeEnum(String code) {
+        ResultCodeEnum codeEnum = resolve(code);
+        if (codeEnum == null) {
+            throw ExceptionHelper.createBusinessException(METHOD_FAILURE, "没有匹配的code [" + code + "]");
+        }
+        return codeEnum;
+    }
+
+    public static ResultCodeEnum resolve(String code) {
         for (ResultCodeEnum codeEnum : values()) {
             if (code.equals(codeEnum.code())) {
                 return codeEnum;
