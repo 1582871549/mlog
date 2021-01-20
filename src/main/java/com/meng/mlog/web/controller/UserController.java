@@ -5,21 +5,25 @@ import com.meng.mlog.common.base.BaseService;
 import com.meng.mlog.common.result.helper.AssertHelper;
 import com.meng.mlog.common.result.model.ResultList;
 import com.meng.mlog.web.entity.UserVO;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController implements BaseController, BaseService<UserVO> {
 
-    @RequestMapping(value = "/listUsers1", method = RequestMethod.GET)
-    public ResultList<UserVO> listUsers1() {
-
+    @RequestMapping(value = "/listUsers", method = RequestMethod.GET)
+    public ResultList<UserVO> listUsers() {
+        System.out.println("-----------");
         List<UserVO> userVOS = getUserVOS();
+        AssertHelper.notNull(userVOS, "用户集合不能为空");
         return createResultList(userVOS, 10);
     }
 
@@ -37,11 +41,15 @@ public class UserController implements BaseController, BaseService<UserVO> {
 
         List<UserVO> userVOS = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        String date = LocalDateTime.now().toString();
+
+        for (int i = 1; i <= 10; i++) {
 
             UserVO userVO = new UserVO();
-            userVO.setUsername("dudu_" + i);
-            userVO.setPassword("admin_" + i);
+            userVO.setId(i);
+            userVO.setName("dudu_" + i);
+            userVO.setAddress("上海市普陀区金沙江路 " + i + " 弄");
+            userVO.setDate(date);
 
             userVOS.add(userVO);
         }
