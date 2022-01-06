@@ -4,8 +4,8 @@ import com.meng.mlog.common.result.helper.ExceptionHelper;
 
 public enum ResultCodeEnum {
 
-    SUCCESS("0000", "成功"),
-    FAILED("0001", "失败"),
+    SUCCESS("0000", "success"),
+    FAILED("0001", "failure"),
 
     REGISTER_ERROR("A0100", "用户注册错误"),
     LOGIN_FAILED("A0101", "登陆失败"),
@@ -23,8 +23,8 @@ public enum ResultCodeEnum {
     RETURN_STRING_TYPE_ERROR("B0100","返回String类型错误"),
     ;
 
-    private String code;
-    private String message;
+    private final String code;
+    private final String message;
 
     ResultCodeEnum(String code, String message) {
         this.code = code;
@@ -49,7 +49,7 @@ public enum ResultCodeEnum {
 
     public static ResultCodeEnum resolve(String code) {
         for (ResultCodeEnum codeEnum : values()) {
-            if (code.equals(codeEnum.code())) {
+            if (code.equals(codeEnum.code)) {
                 return codeEnum;
             }
         }

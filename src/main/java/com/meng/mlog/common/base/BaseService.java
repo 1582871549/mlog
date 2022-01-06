@@ -4,9 +4,9 @@ import com.meng.mlog.common.result.model.ResultList;
 
 import java.util.List;
 
-public interface BaseService<T> {
+public interface BaseService {
 
-    default ResultList<T> createResultList(List<T> items, Integer total) {
+    default <T> ResultList<T> createResultList(List<T> items, Integer total) {
         return new ResultList<>(items, total);
     }
 

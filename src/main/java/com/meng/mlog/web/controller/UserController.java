@@ -5,6 +5,7 @@ import com.meng.mlog.common.base.BaseService;
 import com.meng.mlog.common.result.helper.AssertHelper;
 import com.meng.mlog.common.result.model.ResultList;
 import com.meng.mlog.web.entity.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,12 +15,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
-public class UserController implements BaseController, BaseService<UserVO> {
+public class UserController implements BaseController, BaseService {
 
-    @RequestMapping(value = "/listUsers", method = RequestMethod.GET)
+    @RequestMapping(value = "/listUsers1", method = RequestMethod.GET)
     public ResultList<UserVO> listUsers() {
         System.out.println("-----------");
         List<UserVO> userVOS = getUserVOS();
@@ -29,7 +31,7 @@ public class UserController implements BaseController, BaseService<UserVO> {
 
     @RequestMapping(value = "/listUsers2", method = RequestMethod.GET)
     public List<UserVO> listUsers2() {
-
+        log.info("hello");
         List<UserVO> userVOS = getUserVOS();
 
         AssertHelper.notNull(userVOS, "用户集合不能为空");

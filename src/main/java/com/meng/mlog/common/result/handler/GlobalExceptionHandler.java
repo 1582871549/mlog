@@ -1,5 +1,6 @@
 package com.meng.mlog.common.result.handler;
 
+import com.meng.mlog.common.result.enums.ResultCodeEnum;
 import com.meng.mlog.common.result.exception.BusinessException;
 import com.meng.mlog.common.result.helper.ResultHelper;
 import com.meng.mlog.common.result.model.ResultVO;
@@ -17,14 +18,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResultVO handleException(Exception e) {
+    public ResultVO<Void> handleException(Exception e) {
         String message = e.getMessage();
         log.error(message, e);
-        return ResultHelper.failure();
+        return ResultHelper.failure(ResultCodeEnum.FAILED, message);
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResultVO handleBusinessException(BusinessException be) {
+    public ResultVO<Void> handleBusinessException(BusinessException be) {
         String message = be.getMessage();
         log.error(message, be);
         return ResultHelper.failure(be.getCode(), message);

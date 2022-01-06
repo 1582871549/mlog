@@ -1,7 +1,12 @@
 package com.meng.mlog.common.result.model;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.io.Serializable;
 
+@Getter
+@ToString
 public class ResultVO<T> implements Serializable {
 
     private static final long serialVersionUID = 8934176536590889608L;
@@ -24,15 +29,4 @@ public class ResultVO<T> implements Serializable {
         return this;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
-    }
 }
