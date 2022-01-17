@@ -1,7 +1,5 @@
 package com.meng.mlog.web.controller;
 
-import com.meng.mlog.common.base.BaseController;
-import com.meng.mlog.common.base.BaseService;
 import com.meng.mlog.common.result.helper.AssertHelper;
 import com.meng.mlog.common.result.model.ResultList;
 import com.meng.mlog.web.entity.UserVO;
@@ -15,18 +13,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.meng.mlog.common.result.helper.ResultHelper.createResultList;
+
 @Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/user")
-public class UserController implements BaseController, BaseService {
+public class UserController {
 
     @RequestMapping(value = "/listUsers1", method = RequestMethod.GET)
     public ResultList<UserVO> listUsers() {
         System.out.println("-----------");
         List<UserVO> userVOS = getUserVOS();
         AssertHelper.notNull(userVOS, "用户集合不能为空");
-        return createResultList(userVOS, 10);
+        return createResultList(userVOS);
     }
 
     @RequestMapping(value = "/listUsers2", method = RequestMethod.GET)
