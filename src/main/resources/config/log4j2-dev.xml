@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    status: 这个用于设置log4j2自身内部的信息输出, 可以不设置. 当设置成trace时, 会看到log4j2内部各种详细输出
+    共有8个级别, 按照从低到高为: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF
+ -->
+<Configuration status="OFF" name="XInclude">
+
+    <!-- 配置属性值  -->
+    <Properties>
+        <Property name="project_name" value="mlog"/>
+        <Property name="log_path" value="logs"/>
+        <Property name="log_pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %-40.40c{1.} : %m%n"/>
+        <Property name="file_name" value="${log_path}/${project_name}.log"/>
+        <Property name="file_path" value="${log_path}/archives/${file_name_pattern}"/>
+        <Property name="file_name_pattern" value="app_%d{yyyy-MM-dd}_%i.log.gz"/>
+    </Properties>
+
+    <!-- 配置输出端  -->
+    <Appenders>
+        <!-- 输出到控制台, 仅在本地开发环境使用 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+        <!-- 输出到日志文件, 滚动分割日志文件, 自动打包gz -->
+        <!--
+            name:           输出端的名字
+            fileName:       指定当前日志文件的位置和文件名称
+            filePattern:    指定当发生自动封存日志时, 文件的转移和重命名规则
+                            结合下面的TimeBasedTriggeringPolicy一起使用, 可以实现控制日志按天生成文件.
+
+            自动封存日志的策略可以设置时间策略和文件大小策略(见下面的Policies配置)
+            示例:
+                app_%d{yyyy-MM-dd}_%i.log
+            时间策略:
+                这里的 %d 表示自动封存日志的单位是天
+                如果下面的TimeBasedTriggeringPolicy的interval设为1
+                表示每天自动封存日志一次, 那么就是一天生成一个文件
+            文件大小策略:
+                如果设置了SizeBasedTriggeringPolicy的size的话
+                超过了这个size就会再生成一个文件，使用 %i 来区分
+        -->
+        <RollingFile name="rolling_file_info" fileName="${file_name}" filePattern="${file_path}">
+            <!-- 只输出level及以上级别的信息(onMatch), 其他的直接拒绝(onMismatch) -->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="utf-8" pattern="${log_pattern}"/>
+            <!-- Policies:自动封存日志策略, 表示日志什么时候应该产生新日志 -->
+            <Policies>
+                <!-- 默认一天一个文件 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <!-- 大于size就单独分隔 -->
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!-- 默认同一文件夹下最多存在多少个文件 -->
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+
+    <!-- 配置Loggers -->
+    <Loggers>
+        <!-- 默认的Root Logger级别 -->
+        <Root level="INFO">
+            <!-- 这里需要区分下环境(配合maven profile之类的) -->
+            <!-- 开发环境使用Console Appender, 生产环境使用File Appender -->
+            <AppenderRef ref="console"/>
+            <!--<AppenderRef ref="rolling_file_info"/>-->
+        </Root>
+        <!--
+            Logger:         用于指定部分包的日志级别, 会覆盖全局配置
+            name:           包名
+            level:          日志级别
+            additivity:     调用完当前appender, 是否继续调用parent logger appender. 默认为true
+                            如果设为false, 则必须配置AppendRef
+         -->
+        <!--<Logger name="src.main.java" level="INFO" additivity="false">-->
+        <!--    <AppenderRef ref="rolling_file_info"/>-->
+        <!--</Logger>-->
+    </Loggers>
+</Configuration>
